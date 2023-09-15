@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Fomulario</h1>
+      <form action="">
+        <div class="formulario">
+          <label for="">Documento</label>
+          <input type="number" id="txtDocumento" value="" />
+          <label for="">Correo</label>
+          <input type="email" id="txtCorreo" value="" />
+          <label for="">Nombre</label>
+          <input type="text" id="txtNombre" value="" />
+        </div>
+        <button id="btnEnviar">Enviar</button>
+      </form>
+    </main>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+      import { Timestamp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCZIVveasCFBEYXs_rB-lfhX67W0ieT90o",
+        authDomain: "firstapp-fa301.firebaseapp.com",
+        projectId: "firstapp-fa301",
+        storageBucket: "firstapp-fa301.appspot.com",
+        messagingSenderId: "313058885608",
+        appId: "1:313058885608:web:51b69ea26f59ca28922e5d",
+        measurementId: "G-DEPEVKYK3Y",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      function getUrlParameter(name) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(window.location.href);
+        if (!results) return null;
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      const documentoHref = getUrlParameter("ref");
+      const emailHref = getUrlParameter("mail");
+      const nombreHref = getUrlParameter("name");
+
+      const btnSend = document.getElementById("btnEnviar");
+
+      btnSend.addEventListener("click", async function (e) {
+        e.preventDefault();
+
+        const documento = document.getElementById("txtDocumento").value;
+        const email = document.getElementById("txtCorreo").value;
+        const nombre = document.getElementById("txtNombre").value;
+
+        const fechaActual = Timestamp.now();
+
+        try {
+          const docRef = await addDoc(collection(db, "datos"), {
+            Documento: documento,
+            correoTecnico: email,
+            nombre: nombre,
+            date: fechaActual,
+            fecha: fechaActual,
+            respuesta1: "Regular",
+            respuesta2: "Muy bien",
+            respuesta3: "Buena",
+          });
+          console.log("Documento enviado con ID: ", docRef.id);
+          alert("Encuesta enviada correctamente a Firestore!");
+        } catch (error) {
+          console.error("Error al enviar el documento: ", error);
+          alert("Error al enviar la encuesta.");
+        }
+        document.getElementById("txtDocumento").value = "";
+        document.getElementById("txtCorreo").value = "";
+        document.getElementById("txtNombre").value = "";
+      });
+    </script>
+  </body>
+</html>
