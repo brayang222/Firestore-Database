@@ -9,17 +9,69 @@
   <body>
     <main class="container">
       <h1>Fomulario</h1>
-      <form action="">
-        <div class="formulario">
-          <label for="">Documento</label>
-          <input type="number" id="txtDocumento" value="" />
-          <label for="">Correo</label>
-          <input type="email" id="txtCorreo" value="" />
-          <label for="">Nombre</label>
-          <input type="text" id="txtNombre" value="" />
+      <div class="question-container" id="question1-container">
+        <header>
+          <h1>Pregunta 1: ¿Cómo calificaría nuestro servicio?</h1>
+        </header>
+        <div class="options">
+          <button class="satisfaction-option" value="Muy Mala">Muy Mala</button>
+          <button class="satisfaction-option" value="Mala">Mala</button>
+          <button class="satisfaction-option" value="Neutral">Neutral</button>
+          <button class="satisfaction-option" value="Buena">Buena</button>
+          <button class="satisfaction-option" value="Muy Buena">
+            Muy Buena
+          </button>
         </div>
-        <button id="btnEnviar">Enviar</button>
-      </form>
+      </div>
+
+      <div
+        class="question-container"
+        id="question2-container"
+        style="display: none"
+      >
+        <header>
+          <h1>Pregunta 2: ¿Está satisfecho con nuestros productos?</h1>
+        </header>
+        <div class="options">
+          <button class="satisfaction-option" value="Muy Mala">Muy Mala</button>
+          <button class="satisfaction-option" value="Mala">Mala</button>
+          <button class="satisfaction-option" value="Neutral">Neutral</button>
+          <button class="satisfaction-option" value="Buena">Buena</button>
+          <button class="satisfaction-option" value="Muy Buena">
+            Muy Buena
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="question-container"
+        id="question3-container"
+        style="display: none"
+      >
+        <header>
+          <h1>Pregunta 3: ¿Recomendaría nuestros servicios a otros?</h1>
+        </header>
+        <div class="options">
+          <button class="satisfaction-option" value="Muy Mala">Muy Mala</button>
+          <button class="satisfaction-option" value="Mala">Mala</button>
+          <button class="satisfaction-option" value="Neutral">Neutral</button>
+          <button class="satisfaction-option" value="Buena">Buena</button>
+          <button class="satisfaction-option" value="Muy Buena">
+            Muy Buena
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="question-container"
+        id="thank-you-container"
+        style="display: none"
+      >
+        <header>
+          <h1>¡Gracias por tus respuestas!</h1>
+        </header>
+      </div>
+      <button id="btnEnviar" class="btnEnviar">Enviar</button>
     </main>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
@@ -47,13 +99,45 @@
       const paramURL = window.location.search;
       const parametrosURL = new URLSearchParams(paramURL);
 
-      const documento = parametrosURL.get('doc');
-      const email = parametrosURL.get('mail');
-      const nombre = parametrosURL.get('name');
+      const documento = parametrosURL.get("doc");
+      const email = parametrosURL.get("mail");
+      const nombre = parametrosURL.get("name");
 
-      console.log("Documento: " + documento + " Email: " + email + " Nombre: " + nombre);
+      console.log(
+        "Documento: " + documento + " Email: " + email + " Nombre: " + nombre
+      );
 
       const btnSend = document.getElementById("btnEnviar");
+
+      const satisfactionOptions = document.querySelectorAll(
+        ".satisfaction-option"
+      );
+      const questionContainers = document.querySelectorAll(
+        ".question-container"
+      );
+      const respuestas = ["", "", ""]; // Almacena las respuestas en un array
+
+      satisfactionOptions.forEach((option, index) => {
+        option.addEventListener("click", () => {
+          // Obtener el índice de la pregunta actual
+          const preguntaIndex = Math.floor(index / 5);
+
+          // Capturar la respuesta para la pregunta actual
+          respuestas[preguntaIndex] = option.value;
+          console.log(
+            `Respuesta ${preguntaIndex + 1}: ${respuestas[preguntaIndex]}`
+          );
+
+          // Ocultar el contenedor de la pregunta actual
+          questionContainers[preguntaIndex].style.display = "none";
+
+          // Mostrar el siguiente contenedor si existe
+          const nextContainer = questionContainers[preguntaIndex + 1];
+          if (nextContainer) {
+            nextContainer.style.display = "block";
+          }
+        });
+      });
 
       btnSend.addEventListener("click", async function (e) {
         e.preventDefault();
@@ -67,19 +151,16 @@
             nombre: nombre,
             date: fechaActual,
             fecha: fechaActual,
-            respuesta1: "Regular",
-            respuesta2: "Muy bien",
-            respuesta3: "Buena",
+            respuesta1: respuestas[0],
+            respuesta2: respuestas[1],
+            respuesta3: respuestas[2],
           });
           console.log("Documento enviado con ID: ", docRef.id);
-          alert("Encuesta enviada correctamente a Firestore!");
+          alert("Encuesta enviada correctamente a la base de datos!");
         } catch (error) {
           console.error("Error al enviar el documento: ", error);
           alert("Error al enviar la encuesta.");
         }
-        document.getElementById("txtDocumento").value = "";
-        document.getElementById("txtCorreo").value = "";
-        document.getElementById("txtNombre").value = "";
       });
     </script>
   </body>
