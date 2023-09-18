@@ -109,12 +109,8 @@
 
       const btnSend = document.getElementById("btnEnviar");
 
-      const satisfactionOptions = document.querySelectorAll(
-        ".satisfaction-option"
-      );
-      const questionContainers = document.querySelectorAll(
-        ".question-container"
-      );
+      const satisfactionOptions = document.querySelectorAll(".satisfaction-option");
+      const questionContainers = document.querySelectorAll(".question-container");
       const respuestas = ["", "", ""]; // Almacena las respuestas en un array
 
       satisfactionOptions.forEach((option, index) => {
@@ -135,6 +131,9 @@
           const nextContainer = questionContainers[preguntaIndex + 1];
           if (nextContainer) {
             nextContainer.style.display = "block";
+          } else {
+            btnSend.click();
+            console.log("hola");
           }
         });
       });
