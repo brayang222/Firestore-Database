@@ -44,26 +44,19 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      function getUrlParameter(name) {
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-          results = regex.exec(window.location.href);
-        if (!results) return null;
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-      }
+      const paramURL = window.location.search;
+      const parametrosURL = new URLSearchParams(paramURL);
 
-      const documentoHref = getUrlParameter("ref");
-      const emailHref = getUrlParameter("mail");
-      const nombreHref = getUrlParameter("name");
+      const documento = parametrosURL.get('doc');
+      const email = parametrosURL.get('mail');
+      const nombre = parametrosURL.get('name');
+
+      console.log("Documento: " + documento + " Email: " + email + " Nombre: " + nombre);
 
       const btnSend = document.getElementById("btnEnviar");
 
       btnSend.addEventListener("click", async function (e) {
         e.preventDefault();
-
-        const documento = document.getElementById("txtDocumento").value;
-        const email = document.getElementById("txtCorreo").value;
-        const nombre = document.getElementById("txtNombre").value;
 
         const fechaActual = Timestamp.now();
 

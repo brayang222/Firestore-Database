@@ -1,11 +1,13 @@
 * {
   padding: 0;
   margin: 0;
-  background-color: black;
+  background-color: #284158;
   color: whitesmoke;
 }
 
 .container {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
