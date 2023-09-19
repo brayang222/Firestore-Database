@@ -1,7 +1,7 @@
 * {
   padding: 0;
   margin: 0;
-  background-color: #284158;
+  background-color: #2d3741;
   color: whitesmoke;
 }
 
@@ -13,12 +13,11 @@ body {
 }
 
 .question-container {
-  border: 1px solid #ddd;
   border-radius: 10px;
   margin: 20px auto;
   max-width: 500px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 header {
@@ -26,6 +25,9 @@ header {
   padding: 10px;
   text-align: center;
   border-radius: 5px 5px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .options {
@@ -37,13 +39,13 @@ header {
 }
 
 .satisfaction-option {
-  background-color: #4CAF50;
+  background-color: #53C914;
   color: white;
   border: none;
   padding: 10px 20px;
   margin: 5px auto;
   display: block;
-  width: 100%;
+  width: 150px;
   cursor: pointer;
   border-radius: 5px;
 }
