@@ -62,15 +62,4 @@ header {
   justify-content: center;
 }
 
-.btnEnviar {
-  border: 1px #141d69 solid;
-  background-color: #1d277c;
-  padding: 10px 30px;
-  border-radius: 10px;
-}
-
-.btnEnviar:hover {
-  background-color: rgb(88, 85, 230);
-  cursor: pointer;
-}
 

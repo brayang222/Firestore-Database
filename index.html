@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +8,7 @@
   </head>
   <body>
     <main class="container">
-      <h1>Fomulario p</h1>
+      <h1>Fomulario</h1>
       <div class="question-container" id="question1-container">
         <header>
           <h1>Pregunta 1: ¿Cómo calificaría nuestro servicio?</h1>
@@ -112,27 +111,21 @@
       const respuestas = ["", "", ""]; 
       let currentQuestion = 0;
 
-      function showNextQuestion() {
-        questionContainers[currentQuestion].style.display = "none";
-        currentQuestion++;
-        if (currentQuestion < questionContainers.length) {
-          questionContainers[currentQuestion].style.display = "block";
-        } else {
-          enviarEncuesta();
-        }
-      }
-
       satisfactionOptions.forEach((option, index) => {
         option.addEventListener("click", () => {
           respuestas[currentQuestion] = option.value;
           showNextQuestion();
+          // Aquí agregamos el manejador de eventos para el botón "Enviar"
+          if (currentQuestion === 2) {
+            enviarEncuesta();
+          }
         });
       });
 
       async function enviarEncuesta() {
         const fechaActual = Timestamp.now();
         try {
-          await addDoc(collection(db, "datos"), {
+          const docRef = await addDoc(collection(db, "datos"), {
             Documento: documento,
             correoTecnico: email,
             nombre: nombre,
@@ -147,6 +140,14 @@
         } catch (error) {
           console.error("Error al enviar la encuesta: ", error);
           alert("Error al enviar la encuesta.");
+        }
+      }
+
+      function showNextQuestion() {
+        questionContainers[currentQuestion].style.display = "none";
+        currentQuestion++;
+        if (currentQuestion < questionContainers.length) {
+          questionContainers[currentQuestion].style.display = "block";
         }
       }
     </script>
