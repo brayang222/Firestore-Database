@@ -114,10 +114,10 @@
       satisfactionOptions.forEach((option, index) => {
         option.addEventListener("click", () => {
           respuestas[currentQuestion] = option.value;
-          showNextQuestion();
-          // Aquí agregamos el manejador de eventos para el botón "Enviar"
           if (currentQuestion === 2) {
             enviarEncuesta();
+          } else {
+            showNextQuestion();
           }
         });
       });
@@ -136,6 +136,7 @@
             respuesta3: respuestas[2],
           });
           console.log("Encuesta enviada correctamente");
+          document.getElementById("thank-you-container").style.display = "block";
           alert("Encuesta enviada correctamente a la base de datos!");
         } catch (error) {
           console.error("Error al enviar la encuesta: ", error);
