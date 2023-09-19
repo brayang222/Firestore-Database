@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +9,7 @@
   </head>
   <body>
     <main class="container">
-      <h1>Fomulario</h1>
+      <h1>Fomulario p</h1>
       <div class="question-container" id="question1-container">
         <header>
           <h1>Pregunta 1: ¿Cómo calificaría nuestro servicio?</h1>
@@ -71,7 +72,6 @@
           <h1>¡Gracias por tus respuestas!</h1>
         </header>
       </div>
-      <button id="btnEnviar" class="btnEnviar">Enviar</button>
     </main>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
@@ -107,44 +107,32 @@
         "Documento: " + documento + " Email: " + email + " Nombre: " + nombre
       );
 
-      const btnSend = document.getElementById("btnEnviar");
-
       const satisfactionOptions = document.querySelectorAll(".satisfaction-option");
       const questionContainers = document.querySelectorAll(".question-container");
-      const respuestas = ["", "", ""]; // Almacena las respuestas en un array
+      const respuestas = ["", "", ""]; 
+      let currentQuestion = 0;
+
+      function showNextQuestion() {
+        questionContainers[currentQuestion].style.display = "none";
+        currentQuestion++;
+        if (currentQuestion < questionContainers.length) {
+          questionContainers[currentQuestion].style.display = "block";
+        } else {
+          enviarEncuesta();
+        }
+      }
 
       satisfactionOptions.forEach((option, index) => {
         option.addEventListener("click", () => {
-          // Obtener el índice de la pregunta actual
-          const preguntaIndex = Math.floor(index / 5);
-
-          // Capturar la respuesta para la pregunta actual
-          respuestas[preguntaIndex] = option.value;
-          console.log(
-            `Respuesta ${preguntaIndex + 1}: ${respuestas[preguntaIndex]}`
-          );
-
-          // Ocultar el contenedor de la pregunta actual
-          questionContainers[preguntaIndex].style.display = "none";
-
-          // Mostrar el siguiente contenedor si existe
-          const nextContainer = questionContainers[preguntaIndex + 1];
-          if (nextContainer) {
-            nextContainer.style.display = "block";
-          } else {
-            btnSend.click();
-            console.log("hola");
-          }
+          respuestas[currentQuestion] = option.value;
+          showNextQuestion();
         });
       });
 
-      btnSend.addEventListener("click", async function (e) {
-        e.preventDefault();
-
+      async function enviarEncuesta() {
         const fechaActual = Timestamp.now();
-
         try {
-          const docRef = await addDoc(collection(db, "datos"), {
+          await addDoc(collection(db, "datos"), {
             Documento: documento,
             correoTecnico: email,
             nombre: nombre,
@@ -154,13 +142,13 @@
             respuesta2: respuestas[1],
             respuesta3: respuestas[2],
           });
-          console.log("Documento enviado con ID: ", docRef.id);
+          console.log("Encuesta enviada correctamente");
           alert("Encuesta enviada correctamente a la base de datos!");
         } catch (error) {
-          console.error("Error al enviar el documento: ", error);
+          console.error("Error al enviar la encuesta: ", error);
           alert("Error al enviar la encuesta.");
         }
-      });
+      }
     </script>
   </body>
 </html>
