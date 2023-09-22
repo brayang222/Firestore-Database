@@ -8,7 +8,7 @@
   </head>
   <body>
     <main class="container">
-      <h1>Fomulario</h1>
+      <h1 class="title">Fomulario</h1>
       <div class="question-container" id="question1-container">
         <header>
           <h1>¿Cómo calificaría la atención del técnico?</h1>
@@ -104,6 +104,8 @@
       const documento = parametrosURL.get("doc");
       const email = parametrosURL.get("mail");
       const nombre = parametrosURL.get("name");
+      const empresa = parametrosURL.get("company");
+
 
       console.log(
         "Documento: " + documento + " Email: " + email + " Nombre: " + nombre
@@ -132,6 +134,7 @@
             Documento: documento,
             correoTecnico: email,
             nombre: nombre,
+            empresaAsignada: empresa,
             date: fechaActual,
             fecha: fechaActual,
             respuesta1: respuestas[0],
