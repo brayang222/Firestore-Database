@@ -112,11 +112,12 @@
 
       const documento = parametrosURL.get("doc");
       const email = parametrosURL.get("mail");
+      const emailTecnico = parametrosURL.get("mail");
       const nombre = parametrosURL.get("name");
       const cliente = parametrosURL.get("client");
 
       console.log(
-        "Documento: " + documento + " Email: " + email + " Nombre: " + nombre + "Cliente: " + cliente
+        "Documento: " + documento + " Email: " + emailTecnico + " Nombre: " + nombre + "Cliente: " + cliente + "Correo cli: " + email
       );
 
       const satisfactionOptions = document.querySelectorAll(
@@ -147,7 +148,8 @@
           try {
             const docRef = await addDoc(collection(db, "datos"), {
               Documento: documento,
-              correoTecnico: email,
+              correoTecnico: emailTecnico,
+              correoCliente: email,
               nombre: nombre,
               cliente: cliente,
               date: fechaActual,
